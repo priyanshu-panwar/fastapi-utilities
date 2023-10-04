@@ -6,6 +6,9 @@ on:
       - master
   schedule:
     - cron: '30 6 * * *'
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
