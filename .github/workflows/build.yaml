@@ -1,11 +1,11 @@
-name: build
+name: 💚Build
 
 on:
   push:
     branches:
       - build
   schedule:
-    - cron: '0 0 * * *'  # Nightly build
+    - cron: '30 6 * * *'
 
 jobs:
   build:
@@ -13,21 +13,21 @@ jobs:
     strategy:
       max-parallel: 3
       matrix:
-        python-version: ['3.7', '3.8']
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: 🚧 Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
+      - name: 🚧 Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run Tests
+      - name: 🧪Run Tests
         run: |
           python3 -m pytest --cov=fastapi_utilities --cov-report=xml
-      - name: Submit coverage report
+      - name: ⚗️Submit coverage report
         run: |
           python3 -m codecov --token=${{ secrets.CODECOV_TOKEN }}
