@@ -16,30 +16,15 @@ jobs:
         python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - uses: actions/cache@v1
-        id: cache-deps
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-${{ matrix.python-version }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - uses: actions/cache@v1
-        with:
-          path: .mypy_cache
-          key: mypy-${{ matrix.python-version }}
-      - uses: actions/cache@v1
-        with:
-          path: .pytest_cache
-          key: pytest-${{ matrix.python-version }}
       - name: Run Tests
         run: |
           python3 -m pytest --cov=fastapi_utilities --cov-report=xml
