@@ -3,7 +3,7 @@ name: build
 on:
   push:
     branches:
-      - master
+      - build
   schedule:
     - cron: '0 0 * * *'  # Nightly build
 
@@ -42,7 +42,7 @@ jobs:
           key: pytest-${{ matrix.python-version }}
       - name: Run Tests
         run: |
-          pytest --cov=fastapi_utilities --cov-report=xml
+          python3 -m pytest --cov=fastapi_utilities --cov-report=xml
       - name: Submit coverage report
         run: |
           codecov --token=${{ secrets.CODECOV_TOKEN }}
