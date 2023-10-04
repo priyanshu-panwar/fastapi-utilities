@@ -30,4 +30,4 @@ jobs:
           python3 -m pytest --cov=fastapi_utilities --cov-report=xml
       - name: Submit coverage report
         run: |
-          codecov --token=${{ secrets.CODECOV_TOKEN }}
+          python3 -m codecov --token=${{ secrets.CODECOV_TOKEN }}
