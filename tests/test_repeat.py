@@ -81,10 +81,10 @@ async def test_repeat_every_with_logger(caplog: LogCaptureFixture):
 
 
 from asyncio import AbstractEventLoop
-from typing import Any
+from typing import Any, Dict
 
 
-def ignore_exception(_loop: AbstractEventLoop, _context: dict[str, Any]) -> None:
+def ignore_exception(_loop: AbstractEventLoop, _context: Dict[str, Any]) -> None:
     pass
 
 
