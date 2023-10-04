@@ -8,7 +8,6 @@
 <a href="https://codecov.io/gh/priyanshu-panwar/fastapi-utilities" > 
  <img src="https://codecov.io/gh/priyanshu-panwar/fastapi-utilities/graph/badge.svg?token=8ACG93WM6I"/> 
  </a>
- <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/fastapi-utilities">
 
 </p>
 
