@@ -3,6 +3,7 @@ name: 📦️Upload PyPi Package
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -33,7 +34,7 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
       - name: Build distribution
         run: |
-          source $HOME/.poetry/env && poetry build
+          poetry build
       - name: Publish distribution to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
