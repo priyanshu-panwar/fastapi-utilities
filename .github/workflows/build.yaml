@@ -3,7 +3,7 @@ name: 💚Build
 on:
   push:
     branches:
-      - build
+      - master
   schedule:
     - cron: '30 6 * * *'
 
