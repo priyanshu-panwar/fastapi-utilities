@@ -36,12 +36,12 @@ def repeat_every(
 
         @wraps(func)
         async def wrapper(*args, **kwargs):
-            if wait_first:
-                await asyncio.sleep(seconds)
             repetitions = 0
 
             async def loop(*args, **kwargs):
                 nonlocal repetitions
+                if wait_first:
+                    await asyncio.sleep(seconds)
                 while max_repetitions is None or repetitions < max_repetitions:
                     try:
                         if is_coroutine:

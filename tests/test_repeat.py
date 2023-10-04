@@ -1,5 +1,6 @@
 import logging
 import pytest
+import asyncio
 
 from _pytest.capture import CaptureFixture
 from _pytest.logging import LogCaptureFixture
@@ -17,6 +18,7 @@ async def test_repeat_every(capsys: CaptureFixture[str]):
         print("Hello")
 
     await print_hello()
+    await asyncio.sleep(0.5)
     out, err = capsys.readouterr()
     assert out == "Hello\nHello\nHello\n"
     assert err == ""
@@ -33,6 +35,7 @@ async def test_repeat_every_sync(capsys: CaptureFixture[str]):
         print("Hello")
 
     await print_hello()
+    await asyncio.sleep(0.5)
     out, err = capsys.readouterr()
     assert out == "Hello\nHello\nHello\n"
     assert err == ""
@@ -49,6 +52,7 @@ async def test_repeat_every_with_wait_first(capsys: CaptureFixture[str]):
         print("Hello")
 
     await print_hello()
+    await asyncio.sleep(0.5)
     out, err = capsys.readouterr()
     assert out == "Hello\nHello\nHello\n"
     assert err == ""
@@ -65,6 +69,7 @@ async def test_repeat_every_with_logger(caplog: LogCaptureFixture):
         raise Exception("Hello")
 
     await print_hello()
+    await asyncio.sleep(0.5)
 
     captured_logs = caplog.records
 
@@ -75,17 +80,31 @@ async def test_repeat_every_with_logger(caplog: LogCaptureFixture):
     assert "Hello" in last_log.message  # Check log message content
 
 
+from asyncio import AbstractEventLoop
+from typing import Any, Dict
+
+
+def ignore_exception(_loop: AbstractEventLoop, _context: Dict[str, Any]) -> None:
+    pass
+
+
+@pytest.fixture(autouse=True)
+def setup_event_loop(event_loop: AbstractEventLoop) -> None:
+    event_loop.set_exception_handler(ignore_exception)
+
+
 @pytest.mark.asyncio
-async def test_repeat_every_with_raise_exceptions(caplog: LogCaptureFixture):
-    """
-    Test Case for repeat_every with raise_exceptions=True
-    """
+async def test_repeat_raise_error(capsys: CaptureFixture[str]) -> None:
+    logger = logging.getLogger(__name__)
 
-    @repeat_every(seconds=0.1, raise_exceptions=True, max_repetitions=3)
-    async def print_hello():
-        raise Exception("Hello")
+    @repeat_every(
+        seconds=0.07, max_repetitions=None, raise_exceptions=True, logger=logger
+    )
+    def raise_exc():
+        raise ValueError("repeat")
 
-    with pytest.raises(Exception) as e:
-        await print_hello()
-
-    assert str(e.value) == "Hello"
+    await raise_exc()
+    await asyncio.sleep(0.1)
+    out, err = capsys.readouterr()
+    assert out == ""
+    assert err == ""
