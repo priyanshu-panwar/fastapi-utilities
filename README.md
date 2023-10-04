@@ -42,7 +42,7 @@ This package is intended for use with any recent version of FastAPI and Python 3
 ## Installation
 
 ```bash
-pip install fastapi-utils
+pip install fastapi-utilities
 ```
 
 ## License
