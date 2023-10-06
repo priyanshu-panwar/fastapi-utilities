@@ -4,7 +4,7 @@ import asyncio
 
 from _pytest.capture import CaptureFixture
 from _pytest.logging import LogCaptureFixture
-from fastapi_utilities.repeat import repeat_every
+from fastapi_utilities import repeat_every
 
 
 @pytest.mark.asyncio
