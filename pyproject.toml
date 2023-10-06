@@ -32,6 +32,7 @@ python = "^3.7"
 fastapi = "*"
 pydantic = "*"
 sqlalchemy = "*"
+croniter = "^1.0.13"
 
 [tool.poetry.group.dev.dependencies]
 # Testing
