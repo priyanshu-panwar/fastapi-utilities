@@ -2,14 +2,31 @@
     <em>🎨⚡️🔥 Reusable Utilities for FastAPI</em>
 </p>
 <p align="center">
+<img src="https://img.shields.io/github/last-commit/priyanshu-panwar/fastapi-utilities.svg" />
 <a href="https://github.com/priyanshu-panwar/fastapi-utilities/actions/workflows/build.yaml" > 
  <img src="https://github.com/priyanshu-panwar/fastapi-utilities/actions/workflows/build.yaml/badge.svg"/> 
  </a>
 <a href="https://codecov.io/gh/priyanshu-panwar/fastapi-utilities" > 
  <img src="https://codecov.io/gh/priyanshu-panwar/fastapi-utilities/graph/badge.svg?token=8ACG93WM6I"/> 
  </a>
-
+<br />
+<a href="https://pypi.org/project/fastapi-utilities" target="_blank">
+<img src="https://badge.fury.io/py/fastapi-utilities.svg" alt="Package version">
+</a>
+<img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/fastapi-utilities">
+<img alt="PyPI - Python Version" src="https://img.shields.io/github/license/priyanshu-panwar/fastapi-utilities.svg">
+<br />
+<a href="https://pepy.tech/project/fastapi-utilities" > 
+ <img src="https://static.pepy.tech/badge/fastapi-utilities"/> 
+ </a>
+<a href="https://pepy.tech/project/fastapi-utilities" > 
+ <img src="https://static.pepy.tech/badge/fastapi-utilities/month"/> 
+ </a>
+<a href="https://pepy.tech/project/fastapi-utilities" > 
+ <img src="https://static.pepy.tech/badge/fastapi-utilities/week"/> 
+ </a>
 </p>
+
 
 ---
 
