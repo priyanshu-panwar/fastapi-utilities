@@ -1,7 +1,3 @@
----
-title: Welcome to FastAPI Utilities Documentation
----
-
 <p align="center">
     <em>🎨⚡️🔥 Reusable Utilities for FastAPI</em>
 </p>
@@ -52,6 +48,33 @@ async def hey():
     print("hey")
 
 ```
+
+* **Timer Middleware**: Add a middleware to the FastAPI app that logs the time taken to process a request. Optionally, also logs the average response time.The average response time is reset after every (reset_after)100,000 requests.
+
+
+```
+
+import asyncio
+from fastapi import FastAPI, Request
+from fastapi_utilities import add_timer_middleware
+
+app = FastAPI()
+add_timer_middleware(app, show_avg=True)
+
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello, World!"}
+
+```
+
+Response Logs: 
+```
+INFO:     (fastapi-utilities) "GET - /" :: Time Taken :: 0.97 ms
+INFO:     :: Average Response Time :: 0.97 ms
+```
+
+
 
 ---
 
