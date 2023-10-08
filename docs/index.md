@@ -92,6 +92,32 @@ INFO:     :: Average Response Time :: 0.97 ms
 ```
 
 
+* **Cached Sessions**: Now use cached sessions along with context manager instead of `get_db`.
+
+```
+from fastapi import FastAPI
+from .db import Base, engine
+from fastapi_utilities import FastAPISessionMaker, repeat_every
+from .models import User
+import random
+
+app = FastAPI()
+Base.metadata.create_all(bind=engine)
+
+session_maker = FastAPISessionMaker("sqlite:///db.sqlite3")
+
+
+@app.on_event("startup")
+@repeat_every(seconds=5, raise_exceptions=True)
+async def startup():
+    print("Starting up...")
+    with session_maker.context_session() as session:
+        x = User(id=random.randint(0, 10000))
+        session.add(x)
+    print("Startup complete!")
+
+```
+
 
 ---
 
