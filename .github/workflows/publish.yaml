@@ -28,7 +28,7 @@ jobs:
           pip install -r requirements.txt
       - name: Run Tests
         run: |
-          python3 -m pytest
+          python3 -m pytest tests/
       - name: Install poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
