@@ -58,8 +58,11 @@ def main():
     parser_init = subparsers.add_parser("init", help="Initialize FastAPI Utilities CLI")
     parser_init.set_defaults(func=init)
 
-    args = parser.parse_args()
-    args.func(args)
+    try:
+        args = parser.parse_args()
+        args.func(args)
+    except AttributeError:
+        parser.print_help()
 
 
 if __name__ == "__main__":
