@@ -36,11 +36,21 @@
 
 ---
 
+## [🔥New🔥] FastAPI CLI Tool
+
+With our CLI Tool you can get a skeleton project built to get you started with the code.
+
+### How to use
+- Using `poetry`: `poetry run cli init`
+- Using `pip`: `python3 -m cli init`
+
+---
+
 ## Features
 
 This package includes a number of utilities to help reduce boilerplate and reuse common functionality across projects:
 
-* **Repeated Tasks**: Easily trigger periodic tasks on server startup using **repeat_every**.
+* **🕒Repeated Tasks**: Easily trigger periodic tasks on server startup using **repeat_every**.
 
 ```
 
@@ -53,7 +63,7 @@ async def print_hello():
     print("hello")
 ```
 
-* **Cron Jobs**: Easily trigger cron jobs on server startup using **repeat_at** by providing a cron expression.
+* **👷Cron Jobs**: Easily trigger cron jobs on server startup using **repeat_at** by providing a cron expression.
 
 ```
 
@@ -66,7 +76,7 @@ async def hey():
 
 ```
 
-* **Timer Middleware**: Add a middleware to the FastAPI app that logs the time taken to process a request. Optionally, also logs the average response time.The average response time is reset after every (reset_after)100,000 requests.
+* **🕒Timer Middleware**: Add a middleware to the FastAPI app that logs the time taken to process a request. Optionally, also logs the average response time.The average response time is reset after every (reset_after)100,000 requests.
 
 
 ```
@@ -120,6 +130,7 @@ async def startup():
 
 
 ---
+
 
 ## Requirements
 

@@ -1,0 +1,6 @@
+# add requirements here
+# pip install -r requirements.txt
+
+fastapi
+uvicorn
+sqlmodel

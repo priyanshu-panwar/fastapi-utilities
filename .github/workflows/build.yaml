@@ -32,7 +32,7 @@ jobs:
           pip install -r requirements.txt
       - name: 🧪Run Tests
         run: |
-          python3 -m pytest --cov=fastapi_utilities --cov-report=xml
+          python3 -m pytest --cov=fastapi_utilities --cov-report=xml tests/
       - name: ⚗️Submit coverage report
         run: |
           python3 -m codecov --token=${{ secrets.CODECOV_TOKEN }}
