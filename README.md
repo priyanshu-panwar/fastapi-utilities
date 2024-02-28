@@ -36,6 +36,42 @@
 
 ---
 
+## [✨Update✨] How to use with Latest FastAPI version
+With the latest FastAPI version, `on_event` lifespan functions are depreceated. Here is the official [doc](https://fastapi.tiangolo.com/advanced/events/#alternative-events-deprecated).
+We need to make use of `asynccontextmanager` with the latest fastapi.
+
+Here is an example how to use lifespan (Repeated Tasks) functions with latest fastapi:
+
+```
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
+from fastapi_utilities.repeat import repeat_every, repeat_at
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # --- startup ---
+    await test()
+    test2()
+    yield
+    # --- shutdown ---
+
+app = FastAPI(lifespan=lifespan)
+
+# Repeat Every Example
+@repeat_every(seconds=2)
+async def test():
+    print("test")
+
+# Repeat At Example
+@repeat_at(cron="* * * * *")
+def test2():
+    print("test2")
+```
+
+Only difference is to call our tasks from lifespan function instead of using `on_event` function.
+
+---
+
 ## [🔥New🔥] FastAPI CLI Tool
 
 With our CLI Tool you can get a skeleton project built to get you started with the code.
