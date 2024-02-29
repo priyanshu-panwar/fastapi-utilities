@@ -37,7 +37,7 @@
 ---
 
 ## [✨Update✨] How to use with Latest FastAPI version
-With the latest FastAPI version, `on_event` lifespan functions are depreceated. Here is the official [doc](https://fastapi.tiangolo.com/advanced/events/#alternative-events-deprecated).
+With the latest FastAPI version, `on_event` lifespan functions are depreceated. Here is the official [doc](https://fastapi.tiangolo.com/advanced/events/#async-context-manager).
 We need to make use of `asynccontextmanager` with the latest fastapi.
 
 Here is an example how to use lifespan (Repeated Tasks) functions with latest fastapi:
