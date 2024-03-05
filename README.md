@@ -30,7 +30,8 @@
 
 ---
 
-**Source Code**: <a href="https://github.com/priyanshu-panwar/fastapi-utilities" target="_blank">https://github.com/priyanshu-panwar/fastapi-utilities</a>
+**Source Code**: <a href="https://github.com/priyanshu-panwar/fastapi-utilities" target="_blank">https://github.com/priyanshu-panwar/fastapi-utilities</a>  
+**Youtube Link**: [Click Here](https://youtu.be/ZIggeTU8JhQ?si=SO1B0Is0RdXDkbCa)
 
 *Inspired From*: <a href="https://github.com/dmontagu/fastapi-utils" target="_blank">dmontagu/fastapi-utils</a>
 
