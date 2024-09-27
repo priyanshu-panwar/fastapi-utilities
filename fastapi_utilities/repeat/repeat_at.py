@@ -47,7 +47,7 @@ def repeat_at(
         def wrapper(*args, **kwargs):
             repititions = 0
             if not croniter.is_valid(cron):
-                raise ValueError("Invalid cron expression")
+                raise ValueError(f"Invalid cron expression: '{cron}'")
 
             async def loop(*args, **kwargs):
                 nonlocal repititions
