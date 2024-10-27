@@ -27,17 +27,17 @@
  </a>
 </p>
 
-
 ---
 
 **Source Code**: <a href="https://github.com/priyanshu-panwar/fastapi-utilities" target="_blank">https://github.com/priyanshu-panwar/fastapi-utilities</a>  
 **Youtube Link**: [Click Here](https://youtu.be/ZIggeTU8JhQ?si=SO1B0Is0RdXDkbCa)
 
-*Inspired From*: <a href="https://github.com/dmontagu/fastapi-utils" target="_blank">dmontagu/fastapi-utils</a>
+_Inspired From_: <a href="https://github.com/dmontagu/fastapi-utils" target="_blank">dmontagu/fastapi-utils</a>
 
 ---
 
 ## [✨Update✨] How to use with Latest FastAPI version
+
 With the latest FastAPI version, `on_event` lifespan functions are depreceated. Here is the official [doc](https://fastapi.tiangolo.com/advanced/events/#async-context-manager).
 We need to make use of `asynccontextmanager` with the latest fastapi.
 
@@ -73,11 +73,31 @@ Only difference is to call our tasks from lifespan function instead of using `on
 
 ---
 
+## [🔥New🔥] TTL LRU CACHE
+
+We have introduced `ttl_lru_cache` now in our library.
+
+### How to use
+
+```
+from fastapi_utilities import ttl_lru_cache
+
+@ttl_lru_cache(ttl=2, max_size=128)
+def sum(a: int, b: int) -> int:
+    return a + b
+
+sum(1, 3)
+sum(1, 3)
+```
+
+---
+
 ## [🔥New🔥] FastAPI CLI Tool
 
 With our CLI Tool you can get a skeleton project built to get you started with the code.
 
 ### How to use
+
 - Using `poetry`: `poetry run cli init`
 - Using `pip`: `python3 -m cli init`
 
@@ -87,7 +107,7 @@ With our CLI Tool you can get a skeleton project built to get you started with t
 
 This package includes a number of utilities to help reduce boilerplate and reuse common functionality across projects:
 
-* **🕒Repeated Tasks**: Easily trigger periodic tasks on server startup using **repeat_every**.
+- **🕒Repeated Tasks**: Easily trigger periodic tasks on server startup using **repeat_every**.
 
 ```
 
@@ -100,7 +120,7 @@ async def print_hello():
     print("hello")
 ```
 
-* **👷Cron Jobs**: Easily trigger cron jobs on server startup using **repeat_at** by providing a cron expression.
+- **👷Cron Jobs**: Easily trigger cron jobs on server startup using **repeat_at** by providing a cron expression.
 
 ```
 
@@ -113,8 +133,7 @@ async def hey():
 
 ```
 
-* **🕒Timer Middleware**: Add a middleware to the FastAPI app that logs the time taken to process a request. Optionally, also logs the average response time.The average response time is reset after every (reset_after)100,000 requests.
-
+- **🕒Timer Middleware**: Add a middleware to the FastAPI app that logs the time taken to process a request. Optionally, also logs the average response time.The average response time is reset after every (reset_after)100,000 requests.
 
 ```
 
@@ -132,14 +151,14 @@ def read_root():
 
 ```
 
-Response Logs: 
+Response Logs:
+
 ```
 INFO:     (fastapi-utilities) "GET - /" :: Time Taken :: 0.97 ms
 INFO:     :: Average Response Time :: 0.97 ms
 ```
 
-
-* **Cached Sessions**: Now use cached sessions along with context manager instead of `get_db`.
+- **Cached Sessions**: Now use cached sessions along with context manager instead of `get_db`.
 
 ```
 from fastapi import FastAPI
@@ -165,9 +184,7 @@ async def startup():
 
 ```
 
-
 ---
-
 
 ## Requirements
 
