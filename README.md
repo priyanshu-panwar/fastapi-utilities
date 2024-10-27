@@ -46,7 +46,7 @@ Here is an example how to use lifespan (Repeated Tasks) functions with latest fa
 ```
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from fastapi_utilities.repeat import repeat_every, repeat_at
+from fastapi_utilities import repeat_every, repeat_at
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
