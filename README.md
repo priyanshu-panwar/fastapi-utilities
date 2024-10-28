@@ -28,6 +28,15 @@
 </p>
 
 ---
+**Features**:
+- Repeat At / Every for scheduling cron jobs
+- TTL LRU Cache
+- Timing Middleware that logs you the time taken by a request
+- Session Middleware
+- CLI tool to generate skeleton
+
+
+---
 
 **Source Code**: <a href="https://github.com/priyanshu-panwar/fastapi-utilities" target="_blank">https://github.com/priyanshu-panwar/fastapi-utilities</a>  
 **Youtube Link**: [Click Here](https://youtu.be/ZIggeTU8JhQ?si=SO1B0Is0RdXDkbCa)
