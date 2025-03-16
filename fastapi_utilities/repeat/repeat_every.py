@@ -1,9 +1,13 @@
 import asyncio
 import logging
+import typing
 
 from functools import wraps
 from asyncio import ensure_future
 from starlette.concurrency import run_in_threadpool
+
+
+_FuncType = typing.TypeVar("_FuncType", bound=typing.Callable)
 
 
 def repeat_every(
@@ -13,7 +17,7 @@ def repeat_every(
     logger: logging.Logger = None,
     raise_exceptions: bool = False,
     max_repetitions: int = None,
-):
+) -> typing.Callable[[_FuncType], _FuncType]:
     """
     This function returns a decorator that schedules a function to execute periodically after every `seconds` seconds.
 
@@ -31,7 +35,7 @@ def repeat_every(
         The maximum number of times to repeat the function. If None, the function will repeat indefinitely.
     """
 
-    def decorator(func):
+    def decorator(func: _FuncType) -> _FuncType:
         is_coroutine = asyncio.iscoroutinefunction(func)
 
         @wraps(func)
