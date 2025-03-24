@@ -1,12 +1,17 @@
 import asyncio
 import logging
+import typing
+
 from datetime import datetime
 from functools import wraps
 from asyncio import ensure_future
 from starlette.concurrency import run_in_threadpool
 from croniter import croniter
 
-def get_delta(cron):
+_FuncType = typing.TypeVar("_FuncType", bound=typing.Callable)
+
+
+def get_delta(cron: str) -> float:
     """
     Returns the time delta between now and the next cron execution time.
     """
@@ -20,7 +25,7 @@ def repeat_at(
     logger: logging.Logger = None,
     raise_exceptions: bool = False,
     max_repetitions: int = None,
-):
+) -> typing.Callable[[_FuncType], _FuncType]:
     """
     Decorator to schedule a function's execution based on a cron expression.
 
@@ -36,7 +41,7 @@ def repeat_at(
         Maximum number of times to repeat the function. If None, repeats indefinitely.
     """
 
-    def decorator(func):
+    def decorator(func: _FuncType) -> _FuncType:
         is_coroutine = asyncio.iscoroutinefunction(func)
 
         @wraps(func)
