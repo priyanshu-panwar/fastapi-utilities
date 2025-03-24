@@ -16,7 +16,7 @@ async def test_repeat_at(capsys: CaptureFixture[str]):
     async def print_hello():
         print("Hello")
 
-    print_hello()
+    asyncio.create_task(print_hello())
     await asyncio.sleep(1)
     out, err = capsys.readouterr()
     assert err == ""
@@ -50,7 +50,7 @@ async def test_repeat_at_with_logger(caplog: LogCaptureFixture):
     async def print_hello():
         raise Exception("Hello")
 
-    print_hello()
+    asyncio.create_task(print_hello())
     await asyncio.sleep(60)
 
     captured_logs = caplog.records

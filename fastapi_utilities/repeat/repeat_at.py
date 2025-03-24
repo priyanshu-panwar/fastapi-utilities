@@ -8,18 +8,16 @@ from asyncio import ensure_future
 from starlette.concurrency import run_in_threadpool
 from croniter import croniter
 
-
 _FuncType = typing.TypeVar("_FuncType", bound=typing.Callable)
 
 
 def get_delta(cron: str) -> float:
     """
-    This function returns the time delta between now and the next cron execution time.
+    Returns the time delta between now and the next cron execution time.
     """
     now = datetime.now()
     cron = croniter(cron, now)
     return (cron.get_next(datetime) - now).total_seconds()
-
 
 def repeat_at(
     *,
@@ -29,49 +27,64 @@ def repeat_at(
     max_repetitions: int = None,
 ) -> typing.Callable[[_FuncType], _FuncType]:
     """
-    This function returns a decorator that makes a function execute periodically as per the cron expression provided.
+    Decorator to schedule a function's execution based on a cron expression.
 
-    :: Params ::
-    ------------
+    Parameters:
+    -----------
     cron: str
-        Cron-style string for periodic execution, eg. '0 0 * * *' every midnight
+        Cron-style string for periodic execution, e.g., '0 0 * * *' for every midnight.
     logger: logging.Logger (default None)
-        Logger object to log exceptions
+        Logger object to log exceptions.
     raise_exceptions: bool (default False)
-        Whether to raise exceptions or log them
+        Whether to raise exceptions or log them.
     max_repetitions: int (default None)
-        Maximum number of times to repeat the function. If None, repeat indefinitely.
-
+        Maximum number of times to repeat the function. If None, repeats indefinitely.
     """
 
     def decorator(func: _FuncType) -> _FuncType:
         is_coroutine = asyncio.iscoroutinefunction(func)
 
         @wraps(func)
-        def wrapper(*args, **kwargs):
-            repititions = 0
+        async def async_wrapper(*args, **kwargs):
+            repetitions = 0
             if not croniter.is_valid(cron):
                 raise ValueError(f"Invalid cron expression: '{cron}'")
 
-            async def loop(*args, **kwargs):
-                nonlocal repititions
-                while max_repetitions is None or repititions < max_repetitions:
+            while max_repetitions is None or repetitions < max_repetitions:
+                try:
+                    sleep_time = get_delta(cron)
+                    await asyncio.sleep(sleep_time)
+                    await func(*args, **kwargs)
+                except Exception as e:
+                    if logger:
+                        logger.exception(e)
+                    if raise_exceptions:
+                        raise e
+                repetitions += 1
+
+        @wraps(func)
+        def sync_wrapper(*args, **kwargs):
+            repetitions = 0
+            if not croniter.is_valid(cron):
+                raise ValueError(f"Invalid cron expression: '{cron}'")
+
+            async def loop():
+                nonlocal repetitions
+                while max_repetitions is None or repetitions < max_repetitions:
                     try:
-                        sleepTime = get_delta(cron)
-                        await asyncio.sleep(sleepTime)
-                        if is_coroutine:
-                            await func(*args, **kwargs)
-                        else:
-                            await run_in_threadpool(func, *args, **kwargs)
+                        sleep_time = get_delta(cron)
+                        await asyncio.sleep(sleep_time)
+                        await run_in_threadpool(func, *args, **kwargs)
                     except Exception as e:
-                        if logger is not None:
+                        if logger:
                             logger.exception(e)
                         if raise_exceptions:
                             raise e
-                    repititions += 1
+                    repetitions += 1
 
-            ensure_future(loop(*args, **kwargs))
+            ensure_future(loop())
 
-        return wrapper
+        # Return the appropriate wrapper based on the function type
+        return async_wrapper if is_coroutine else sync_wrapper
 
     return decorator
