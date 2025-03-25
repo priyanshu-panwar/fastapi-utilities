@@ -1,10 +1,10 @@
 [tool.poetry]
 name = "fastapi-utilities"
-version = "0.3.0"
+version = "0.3.1"
 description = "Reusable utilities for FastAPI"
 authors = ["Priyanshu Panwar <priyanshu009ch@gmail.com>"]
 readme = "README.md"
-keywords = ["fastapi", "utilities", "utils"]
+keywords = ["fastapi", "utilities", "utils", "fastapi-utilities", "python", "library", "framework", "web", "api"]
 license = "MIT"
 classifiers = [
     "Programming Language :: Python :: 3 :: Only",
@@ -29,7 +29,6 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-
 fastapi = "*"
 pydantic = "*"
 sqlalchemy = "*"
@@ -37,7 +36,6 @@ croniter = "^1.0.13"
 click-spinner = "^0.1.10"
 
 [tool.poetry.group.dev.dependencies]
-# Testing
 pytest = "*"
 pytest-cov = "*"
 pytest-asyncio = "^0.21.1"
