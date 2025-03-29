@@ -29,24 +29,69 @@
 
 ---
 
-**Source Code**: <a href="https://github.com/priyanshu-panwar/fastapi-utilities" target="_blank">https://github.com/priyanshu-panwar/fastapi-utilities</a>  
-**Youtube Link**: [Click Here](https://youtu.be/ZIggeTU8JhQ?si=SO1B0Is0RdXDkbCa)
+## Table of Contents
+- [Features](#features)
+- [Installation](#installation)
+- [Using with Latest FastAPI Version](#update-how-to-use-with-latest-fastapi-version)
+- [New: TTL LRU Cache](#ttl-lru-cache)
+- [New: FastAPI CLI Tool](#fastapi-cli-tool)
+- [New: Rate Limiter](#rate-limiter)
+- [Repeated Tasks](#repeated-tasks)
+- [Cron Jobs](#cron-jobs)
+- [Timer Middleware](#timer-middleware)
+- [Cached Sessions](#cached-sessions)
+- [License](#license)
 
-_Inspired From_: <a href="https://github.com/dmontagu/fastapi-utils" target="_blank">dmontagu/fastapi-utils</a>
+---
+
+## Features
+- Repeat At / Every for scheduling cron jobs
+- TTL LRU Cache
+- Timing Middleware that logs the time taken by a request
+- Session Middleware
+- CLI tool to generate skeleton
+- **🔥New: Rate Limiter** - Limit API requests per user/IP
+
+---
+
+## Rate Limiter
+
+We have introduced a **Rate Limiter** that restricts the number of API requests within a defined time window per user/IP.
+
+### How to use
+
+```python
+from fastapi import FastAPI, Request, HTTPException
+from fastapi_utilities import rate_limiter
+
+app = FastAPI()
+
+@app.get("/limited")
+@rate_limiter(max_requests=2, time_window=5)
+async def limited_endpoint(request: Request):
+    return {"message": "Success"}
+```
+
+### Features
+- **📅 Time-based limiting**: Restrict requests per second/minute/hour.
+- **🔍 Per user/IP tracking**: Limits users individually.
+- **🌐 Configurable limits**: Easily change request limits.
+- **❌ Returns 429 Too Many Requests**: Blocks excessive requests.
+- **Don't FORGET to pass request param in routes**
 
 ---
 
 ## [✨Update✨] How to use with Latest FastAPI version
 
-With the latest FastAPI version, `on_event` lifespan functions are depreceated. Here is the official [doc](https://fastapi.tiangolo.com/advanced/events/#async-context-manager).
-We need to make use of `asynccontextmanager` with the latest fastapi.
+With the latest FastAPI version, `on_event` lifespan functions are deprecated. Here is the official [doc](https://fastapi.tiangolo.com/advanced/events/#async-context-manager).
+We need to make use of `asynccontextmanager` with the latest FastAPI.
 
-Here is an example how to use lifespan (Repeated Tasks) functions with latest fastapi:
+Here is an example how to use lifespan (Repeated Tasks) functions with latest FastAPI:
 
-```
+```python
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from fastapi_utilities.repeat import repeat_every, repeat_at
+from fastapi_utilities import repeat_every, repeat_at
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -73,13 +118,13 @@ Only difference is to call our tasks from lifespan function instead of using `on
 
 ---
 
-## [🔥New🔥] TTL LRU CACHE
+## TTL LRU CACHE
 
 We have introduced `ttl_lru_cache` now in our library.
 
 ### How to use
 
-```
+```python
 from fastapi_utilities import ttl_lru_cache
 
 @ttl_lru_cache(ttl=2, max_size=128)
@@ -92,7 +137,7 @@ sum(1, 3)
 
 ---
 
-## [🔥New🔥] FastAPI CLI Tool
+## FastAPI CLI Tool
 
 With our CLI Tool you can get a skeleton project built to get you started with the code.
 
@@ -102,93 +147,6 @@ With our CLI Tool you can get a skeleton project built to get you started with t
 - Using `pip`: `python3 -m cli init`
 
 ---
-
-## Features
-
-This package includes a number of utilities to help reduce boilerplate and reuse common functionality across projects:
-
-- **🕒Repeated Tasks**: Easily trigger periodic tasks on server startup using **repeat_every**.
-
-```
-
-from fastapi_utilities import repeat_every
-
-@router.on_event('startup')
-@repeat_every(seconds=3)
-async def print_hello():
-
-    print("hello")
-```
-
-- **👷Cron Jobs**: Easily trigger cron jobs on server startup using **repeat_at** by providing a cron expression.
-
-```
-
-from fastapi_utilities import repeat_at
-
-@router.on_event("startup")
-@repeat_at(cron="*/2 * * * *") #every 2nd minute
-async def hey():
-    print("hey")
-
-```
-
-- **🕒Timer Middleware**: Add a middleware to the FastAPI app that logs the time taken to process a request. Optionally, also logs the average response time.The average response time is reset after every (reset_after)100,000 requests.
-
-```
-
-import asyncio
-from fastapi import FastAPI, Request
-from fastapi_utilities import add_timer_middleware
-
-app = FastAPI()
-add_timer_middleware(app, show_avg=True)
-
-
-@app.get("/")
-def read_root():
-    return {"message": "Hello, World!"}
-
-```
-
-Response Logs:
-
-```
-INFO:     (fastapi-utilities) "GET - /" :: Time Taken :: 0.97 ms
-INFO:     :: Average Response Time :: 0.97 ms
-```
-
-- **Cached Sessions**: Now use cached sessions along with context manager instead of `get_db`.
-
-```
-from fastapi import FastAPI
-from .db import Base, engine
-from fastapi_utilities import FastAPISessionMaker, repeat_every
-from .models import User
-import random
-
-app = FastAPI()
-Base.metadata.create_all(bind=engine)
-
-session_maker = FastAPISessionMaker("sqlite:///db.sqlite3")
-
-
-@app.on_event("startup")
-@repeat_every(seconds=5, raise_exceptions=True)
-async def startup():
-    print("Starting up...")
-    with session_maker.context_session() as session:
-        x = User(id=random.randint(0, 10000))
-        session.add(x)
-    print("Startup complete!")
-
-```
-
----
-
-## Requirements
-
-This package is intended for use with any recent version of FastAPI and Python 3.7+.
 
 ## Installation
 

@@ -6,3 +6,5 @@ from .timer import add_timer_middleware
 from .session import FastAPISessionMaker
 
 from .cache import ttl_lru_cache
+
+from .rate_limiter import rate_limiter
