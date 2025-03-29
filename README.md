@@ -34,6 +34,7 @@
 - Timing Middleware that logs you the time taken by a request
 - Session Middleware
 - CLI tool to generate skeleton
+- Rate Limiter
 
 
 ---
@@ -191,6 +192,20 @@ async def startup():
         session.add(x)
     print("Startup complete!")
 
+```
+
+- **Rate Limiter**: Add a rate limiter to your FastAPI routes using an in-memory dictionary.
+
+```
+from fastapi import FastAPI, Request
+from fastapi_utilities import rate_limit
+
+app = FastAPI()
+
+@app.get("/")
+@rate_limit(rate=5, per=60)  # 5 requests per 60 seconds
+async def read_root(request: Request):
+    return {"message": "Hello, World!"}
 ```
 
 ---

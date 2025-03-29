@@ -184,6 +184,20 @@ async def startup():
 
 ```
 
+- **Rate Limiter**: Add a rate limiter to your FastAPI routes using an in-memory dictionary.
+
+```
+from fastapi import FastAPI, Request
+from fastapi_utilities import rate_limit
+
+app = FastAPI()
+
+@app.get("/")
+@rate_limit(rate=5, per=60)  # 5 requests per 60 seconds
+async def read_root(request: Request):
+    return {"message": "Hello, World!"}
+```
+
 ---
 
 ## Requirements
