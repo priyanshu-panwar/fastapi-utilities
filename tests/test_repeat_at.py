@@ -115,3 +115,20 @@ async def test_repeat_at_invalid_cron(capsys: CaptureFixture[str]) -> None:
         out, err = capsys.readouterr()
         assert out == ""
         assert err == ""
+
+@pytest.mark.asyncio
+async def test_repeat_at_on_startup(capsys: CaptureFixture[str]):
+    """
+    Test repeat_at with on_startup=True function
+    """
+    @repeat_at(cron="0 * * * *", max_repetitions=1, on_startup=True)
+    async def hello():
+        print("executed")
+
+    asyncio.create_task(hello())
+    
+    await asyncio.sleep(0.1)
+    out, err = capsys.readouterr()
+    assert "executed" in out
+    assert err == ""
+

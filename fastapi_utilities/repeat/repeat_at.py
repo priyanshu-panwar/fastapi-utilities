@@ -25,6 +25,7 @@ def repeat_at(
     logger: logging.Logger = None,
     raise_exceptions: bool = False,
     max_repetitions: int = None,
+    on_startup = False,
 ) -> typing.Callable[[_FuncType], _FuncType]:
     """
     Decorator to schedule a function's execution based on a cron expression.
@@ -39,6 +40,8 @@ def repeat_at(
         Whether to raise exceptions or log them.
     max_repetitions: int (default None)
         Maximum number of times to repeat the function. If None, repeats indefinitely.
+    on_startup: bool (default False)
+        Whether execute on application startup
     """
 
     def decorator(func: _FuncType) -> _FuncType:
@@ -49,6 +52,10 @@ def repeat_at(
             repetitions = 0
             if not croniter.is_valid(cron):
                 raise ValueError(f"Invalid cron expression: '{cron}'")
+
+            if on_startup:
+                await func(*args, **kwargs)
+                repetitions += 1
 
             while max_repetitions is None or repetitions < max_repetitions:
                 try:
@@ -70,6 +77,11 @@ def repeat_at(
 
             async def loop():
                 nonlocal repetitions
+                
+                if on_startup:
+                    await func(*args, **kwargs)
+                    repetitions += 1
+
                 while max_repetitions is None or repetitions < max_repetitions:
                     try:
                         sleep_time = get_delta(cron)
